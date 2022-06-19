@@ -1,45 +1,35 @@
 import { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-const App = () => {
-  const [count, setCount] = useState(0);
+import Home from './views/Home.jsx'
+import Formularies from './routes/Formularies'
 
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button onClick={() => setCount(count => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  );
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home/>}/>
+          <Route path='formularies' element={<Formularies/>}/>
+          <Route
+            path="*"
+            element={
+              <main style={{ padding: "1rem" }}>
+                <p>There's nothing here!</p>
+              </main>
+            }
+          />
+        </Routes>
+
+      </BrowserRouter>
+    </>
+  )
 };
 
 export default App;
