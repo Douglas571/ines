@@ -1,4 +1,38 @@
-const ActionBar = () => {
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+
+const ActionBar = params => {
+  const {title} = params
+  const navigate = useNavigate()
+  const [anchorEl, setAnchorEl] = useState(null)
+  
+  const toggleMenu = (e) => {
+    if (!anchorEl) 
+      setAnchorEl(e.currentTarget)
+    else
+      setAnchorEl(null)
+  }
+
+  const goBack = () => {
+    if (params.beforeExit) {
+      params.beforeExit()
+    }
+    console.log('going back...')
+    navigate(-1)
+  }
+
   return (
     <>
       <AppBar position="static">
@@ -16,7 +50,7 @@ const ActionBar = () => {
             component="div" 
             sx={{ flexGrow: 1 }}
           >
-            Formularios
+            {title}
           </Typography>
           <IconButton
             edge="end"
@@ -39,7 +73,7 @@ const ActionBar = () => {
             <MenuItem>sos un falso</MenuItem>
             <MenuItem>Yhoxin</MenuItem>
             <MenuItem
-              onClick={deleteFormulary}
+              onClick={null}
             >Eliminar</MenuItem>
           </Menu>
         </Toolbar>
@@ -48,3 +82,5 @@ const ActionBar = () => {
 
     )
 }
+
+export default ActionBar

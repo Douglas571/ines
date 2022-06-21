@@ -60,10 +60,6 @@ const Formularies = () => {
       setAnchorEl(null)
   }
 
-  const goBack = () => {
-    console.log('going back...')
-  }
-
   const deleteFormulary = () => {
     console.log('Deleting a formulary...')
   }
@@ -75,6 +71,11 @@ const Formularies = () => {
   const openFormulary = (id) => {
     console.log(`opening formulary ${id}...`)
     navigate(`/formularies/${id}`)
+  }
+
+  const editFormulary = (id) => {
+    console.log(`editing formulary ${id}...`)
+    navigate(`/formularies/edit/${id}`)
   }
 
   const fabStackStyle = {
@@ -94,7 +95,10 @@ const Formularies = () => {
                 disablePadding
                 key={form.id}
                 secondaryAction={
-                  <IconButton edge="end">
+                  <IconButton 
+                    edge="end"
+                     onClick={() => editFormulary(form.id)}
+                  >
                     <EditIcon/>
                   </IconButton>
                 }

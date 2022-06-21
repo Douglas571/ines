@@ -12,7 +12,10 @@ import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
-import {NavLink} from 'react-router-dom'
+import {
+  useNavigate,
+  useLocation
+} from 'react-router-dom'
 
 import {
   Avatar,
@@ -29,10 +32,31 @@ import Divider from '@mui/material/Divider';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 
 export default function MenuAppBar({title}) {
+  const navigate = useNavigate()
+  const location = useLocation()
   const [auth, setAuth] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const [showMenu, setShowMenu] = React.useState(false);
+
+  const links = [
+    {
+      name: 'Inicio',
+      route: '/'
+
+    },
+    {
+      name: 'Formularios',
+      route: 'formularies'
+
+    }
+  ]
+
+  function goTo(route) {
+    const url = window.location.pathname.split('/')[1]
+
+    if (!(url === route)) navigate(route)
+  }
 
   function toggleMenu(evt) {
     setShowMenu(!showMenu);
@@ -120,47 +144,18 @@ export default function MenuAppBar({title}) {
               <ListItemText primary="Douglas Socorro" secondary="Administrador"/>
             </ListItem>
             <Divider/>
-            <ListItem disablePadding
-              component={NavLink}
-              to="/"
-            >
-              <ListItemButton>
-                <ListItemText primary={"Inicio"}/>  
-              </ListItemButton>
-            </ListItem>
+            {links.map((l, i) => (
+              <ListItem disablePadding
+                key={i}
+                onClick={() => goTo(l.route)}
+              >
+                <ListItemButton>
+                  <ListItemText primary={l.name}/>  
+                </ListItemButton>
+              </ListItem>)
+            )
 
-            <ListItem disablePadding
-              component={NavLink}
-              to="formularies"
-            >
-              <ListItemButton>
-                <ListItemText primary={"Formularios"}/>  
-              </ListItemButton>
-            </ListItem>
-
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemText primary={"Aulario"}/>  
-              </ListItemButton>
-            </ListItem>
-
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemText primary={"Calendario"}/>  
-              </ListItemButton>
-            </ListItem>
-            
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemText primary={"Evaluaciones"}/>  
-              </ListItemButton>
-            </ListItem>
-            
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemText primary={"Docentes"}/>  
-              </ListItemButton>
-            </ListItem>
+            }
           </List>
         </Box>     
       </Drawer>

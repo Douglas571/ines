@@ -2,7 +2,12 @@ import { useState } from 'react';
 import './App.css';
 
 import Home from './views/Home.jsx'
-import Formularies from './routes/Formularies'
+import Forms from './routes/Formularies.jsx'
+import FormsView from './routes/FormulariesView.jsx'
+import FormsEdit from './routes/FormsEdit.jsx'
+
+import { Provider } from 'react-redux'
+import store from './store/store.jsx'
 
 import {
   BrowserRouter,
@@ -12,22 +17,28 @@ import {
 
 const App = () => {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Home/>}/>
-          <Route path='formularies' element={<Formularies/>}/>
-          <Route
-            path="*"
-            element={
-              <main style={{ padding: "1rem" }}>
-                <p>There's nothing here!</p>
-              </main>
-            }
-          />
-        </Routes>
+      <>
+        <Provider store={store}>
+          <BrowserRouter>
+            <Routes>
+              <Route path='/' element={<Home/>}/>
+              <Route path='formularies'>
+                <Route path='' element={<Forms/>}/>
+                <Route path=':id' element={<FormsView/>}/>
+                <Route path='edit/:id' element={<FormsEdit/>}/>
+              </Route>
+              <Route
+                path="*"
+                element={
+                  <main style={{ padding: "1rem" }}>
+                    <p>There's nothing here!</p>
+                  </main>
+                }
+              />
+            </Routes>
 
-      </BrowserRouter>
+          </BrowserRouter>
+        </Provider>
     </>
   )
 };
