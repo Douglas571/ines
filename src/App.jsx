@@ -4,6 +4,7 @@ import './App.css';
 import Home from './views/Home.jsx'
 import Forms from './routes/Forms.jsx'
 import FormsView from './routes/FormsView.jsx'
+import FormsCreate from './routes/FormsCreate.jsx'
 import FormsEdit from './routes/FormsEdit.jsx'
 
 import {
@@ -21,6 +22,7 @@ const App = () => {
             <Route path='formularies'>
               <Route path='' element={<Forms/>}/>
               <Route path=':id' element={<FormsView/>}/>
+              <Route path='create' element={<FormsCreate/>}/>
               <Route path='edit/:id' element={<FormsEdit/>}/>
             </Route>
             <Route

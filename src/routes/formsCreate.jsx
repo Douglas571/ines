@@ -25,7 +25,7 @@ import {
   useParams
 } from 'react-router-dom'
 
-const FormsEdit = () => {
+export default function FormsCreate(){
   const initialState = {
     title: '',
     items: []
@@ -37,14 +37,17 @@ const FormsEdit = () => {
       case 'title':
         return {...state, title: action.payload}
 
+      case 'new:item':
+        const new_items = [...state.items, action.payload]
+        console.log({new_items})
+        return {...state, items: new_items}
+
       default:
         break
     }
   }
 
   const [form, dispatch] = useReducer(reducer, initialState)
-
-
 
   const {id} = useParams()
   const navigate = useNavigate()
@@ -66,13 +69,11 @@ const FormsEdit = () => {
     setItemTypeSelected(evt.target.value)
   }
 
-  function actionCreate(type){
-    return payload => ({ type, payload }) 
-  }
-
   function changeTitle(evt){
     console.log(form.title)
-    dispatch(actionCreate('title', evt.target.value))
+    console.log('aquí')
+    dispatch({type: 'title', payload:evt.target.value})
+    
   }
 
   const beforeExit = () => {
@@ -80,10 +81,21 @@ const FormsEdit = () => {
     console.log('recuerda guardar las cosas antes de salir... :(')
   }
 
-  const addItem = (newItem) => {
+  function addItem(item){
+    dispatch({
+      type:'new:item', 
+      payload: item
+    })
 
-
+    console.log({form})
   }
+
+  const items = form.items.map((i, idx) => {
+    console.log({item: i})
+    return (
+      <Typography key={idx}>{i.label}</Typography>
+    )
+  })
 
   return (
     <>
@@ -114,6 +126,7 @@ const FormsEdit = () => {
             itemTypes={itemTypes}
             itemTypeSelected={itemTypeSelected}
             changeItemType={changeItemType}
+            onAddItem={addItem}
           />
           
         </Stack>
@@ -121,8 +134,6 @@ const FormsEdit = () => {
     </>
     )
 }
-
-export default FormsEdit
 
 /*
 <Container>

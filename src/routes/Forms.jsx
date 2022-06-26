@@ -1,4 +1,5 @@
 import {useState} from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
@@ -36,20 +37,7 @@ const Formularies = () => {
   const navigate = useNavigate()
 
   const [anchorEl, setAnchorEl] = useState(null)
-  const [formularies, setFormularies] = useState([
-      {
-        id: '12345',
-        title: 'Eval. de Acompañamiento'
-      },
-      {
-        id: '79807',
-        title: 'Autoevaluación'
-      },
-      {
-        id: '34873',
-        title: 'Eval. por Alumnado'
-      }
-    ])
+  const forms = useSelector( state => state.forms )
 
   // TO-DO: no quiere actualizar
 
@@ -66,11 +54,12 @@ const Formularies = () => {
 
   const addFormulary = () => {
     console.log('Adding a formulary...')
+    navigate(`/formularies/create`)
   }
 
   const openFormulary = (id) => {
     console.log(`opening formulary ${id}...`)
-    navigate(`/formularies/${id}`)
+    navigate(`/formularies/edit/${id}`)
   }
 
   const editFormulary = (id) => {
@@ -90,7 +79,7 @@ const Formularies = () => {
         <Container sx={{mt:2}}> 
           
           <List dense>
-            {formularies.map( form => 
+            {forms.map( form => 
               <ListItem 
                 disablePadding
                 key={form.id}

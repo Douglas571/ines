@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { change } from '~/features/forms/formsSlice.js'
 
 // third party components...
+import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper'
@@ -29,7 +30,6 @@ import ActionBar from '../components/ActionBar.jsx'
 
 function FormsView() {
   const { id } = useParams()
-  console.log(`the params are: ${JSON.stringify(id)}`)
 
   const form = useSelector(state => {
     return state.forms.find(f => f.id === id)
@@ -111,20 +111,17 @@ function FormsView() {
   return (
       <>
         <ActionBar title="Vista del Formulario"/>
-        <Container >
-
-          <Stack spacing={2} mt={2}>
-            <Paper elevation={3}>
-              <Container>
-                <Stack spacing={2} mt={2} mb={3}>
-                  <Typography variant="h5">{form.title}</Typography>
-                  {items}
-                  <Button variant="contained">Evaluar</Button>
-                </Stack>
-              </Container>
-            </Paper>
-          </Stack>
-        </Container>
+        <Box py={2} px={2}>
+          <Paper elevation={3}>
+            <Container>
+              <Stack py={2} spacing={2}>
+                <Typography variant="h5">{form.title}</Typography>
+                {items}
+                <Button variant="contained">Evaluar</Button>
+              </Stack>
+            </Container>
+          </Paper>
+        </Box>
       </>
     )
 }
