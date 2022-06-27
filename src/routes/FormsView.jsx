@@ -23,8 +23,12 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
+import Divider from '@mui/material/Divider';
+
+
 // Own components...
 import ActionBar from '../components/ActionBar.jsx'
+import FormsDinamicItem from '~/components/FormsDinamicItem.jsx'
 
 
 
@@ -47,66 +51,7 @@ function FormsView() {
   let items = (<Typography>Formulario vacio</Typography>)
   if (form.items) {
     items = form.items.map( (i, idx) => {
-      let item 
-
-      switch(i.type){
-        case 'text':
-          item = (
-            <TextField 
-              fullWidth
-              key={idx}
-              label={i.label}
-              variant="outlined" 
-              margin="normal"
-              required={i.required}
-            />)
-          break
-        case 'select':
-          const options = i.options.map((op, idx) => (
-            <MenuItem 
-              key={idx} 
-              value={op}
-            >{op}</MenuItem>
-            ))
-
-          console.log(options)
-
-          item = (
-            <FormControl 
-              key={idx}
-              fullWidth 
-              required={i.required}
-            >
-              <InputLabel id="lbl">{i.label}</InputLabel>
-              <Select
-                id="lbl"
-                label={i.label}
-              >
-                {options}
-              </Select>
-            </FormControl>)
-          break
-
-        case 'checkbox':
-          item = (
-            <FormGroup 
-              key={idx}
-              aria-label="position" 
-              row>
-              <FormControlLabel 
-                control={<Checkbox/>} 
-                label={i.label}
-                labelPlacement="start"/>
-            </FormGroup>
-            )
-          break
-
-        default:
-          item = (<Typography key={idx}>Unknow item type</Typography>)
-          break
-      }
-
-      return item
+      return (<FormsDinamicItem item={i} key={idx}/>)
     })
   }
 
@@ -118,6 +63,7 @@ function FormsView() {
             <Container>
               <Stack py={2} spacing={2}>
                 <Typography variant="h5">{form.title}</Typography>
+                <Divider/>
                 {items}
                 <Button variant="contained">Evaluar</Button>
               </Stack>

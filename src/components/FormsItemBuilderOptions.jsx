@@ -26,7 +26,7 @@ import ListItemText from '@mui/material/ListItemText';
 
 const FormsItemBuilderOptions = (props) => {
   const { onChange } = props
-  const [options, setOptions] = useState(['#1', '#1', '#1'])
+  const [options, setOptions] = useState([])
   const [newOption, setNewOption] = useState('')
 
   const optionInput = useRef(null)

@@ -18,22 +18,22 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import Checkbox from '@mui/material/Checkbox';
 
+import Snackbar from '@mui/material/Snackbar'
+
+// Own components...
 import ActionBar from '../components/ActionBar.jsx'
 import FormsItemBuilder from '~/components/FormsItemBuilder.jsx'
 
+import FormsDinamicItem from '~/components/FormsDinamicItem.jsx'
+
 // Own logic...
 import { addForm } from '~/features/forms/formsSlice.js'
-
+import { itemTypes } from '~/util.js'
 
 import {
   useNavigate,
   useParams
 } from 'react-router-dom'
-
-const itemTypes = [
-    { type: "textField", label: "Texto Corto" },
-    { type: "select", label: "Selección" }
-  ]
 
 const FormsCreate = () => {
   const {id} = useParams()
@@ -98,7 +98,7 @@ const FormsCreate = () => {
 
   const items = form.items.map((i, idx) => {
     return (
-      <Typography key={idx}>{JSON.stringify(i)}</Typography>
+      <FormsDinamicItem item={i} key={idx}/>
     )
   })
 
@@ -122,8 +122,12 @@ const FormsCreate = () => {
                   onBlur={changeTitle}
                   required
                 />
-                <Typography variant="h6">Items</Typography>
-                <Stack>{items}</Stack>
+                
+                <Stack spacing={1}>
+                  <Typography variant="h6">Items</Typography>
+                  {items}
+                </Stack>
+
                 <Button 
                   variant="contained"
                   onClick={saveForm}

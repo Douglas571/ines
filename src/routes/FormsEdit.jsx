@@ -1,4 +1,4 @@
-import { useState, createRef, useReducer } from 'react'
+import { useState, useRef, useReducer, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Box from '@mui/material/Box'
@@ -18,25 +18,32 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import Checkbox from '@mui/material/Checkbox';
 
+import Snackbar from '@mui/material/Snackbar'
+
+
+// Own components...
 import ActionBar from '../components/ActionBar.jsx'
 import FormsItemBuilder from '~/components/FormsItemBuilder.jsx'
+import OptimizedTextField from '~/components/OptimizedTextField.jsx'
+
+
+import FormsDinamicItem from '~/components/FormsDinamicItem.jsx'
 
 // Own logic...
 import { updateForm } from '~/features/forms/formsSlice.js'
+import { itemTypes } from '~/util.js'
 
 import {
   useNavigate,
   useParams
 } from 'react-router-dom'
 
-const itemTypes = [
-    { type: "textField", label: "Texto Corto" },
-    { type: "select", label: "Selección" }
-  ]
-
 const FormsEdit = () => {
+  const titleInput = useRef()
   const {id} = useParams()
   const navigate = useNavigate()
+
+  const [isSaving, setIsSaving] = useState(false)
 
   const originalForm = useSelector(state => {
     console.log({STATE_FORMS: state.forms})
@@ -53,6 +60,15 @@ const FormsEdit = () => {
         console.log({THE_STATE_TITLE_IS: state})
         return {...state, title: action.payload}
 
+      case 'new:item':
+        if(state.items){
+          const new_items = [...state.items, action.payload]
+          console.log({new_items})
+          return {...state, items: new_items}  
+        }
+        return {...state, items: [action.payload]}
+        
+
       default:
         return state
         break
@@ -62,9 +78,9 @@ const FormsEdit = () => {
   const [form, dispatch] = useReducer(reducer, initialState)
   console.log({THE_FORM_IS: form})
 
-  function changeTitle(evt){
-    console.log(form.title)
-    dispatch({ type: 'new:title', payload: evt.target.value})
+  function changeTitle(title){
+    console.log(title)
+    dispatch({ type: 'new:title', payload: title})
   }
 
   const beforeExit = () => {
@@ -73,13 +89,30 @@ const FormsEdit = () => {
   }
 
   const addItem = (newItem) => {
-
+    dispatch({
+      type:'new:item', 
+      payload: newItem
+    })
 
   }
 
   function saveChanges(){
     console.log('[!] saving changes')
     storeDispatch(updateForm(form))
+    setIsSaving(true)
+  }
+
+
+  let items
+  if (form.items) {
+    items = form.items.map((i, idx) => {
+      console.log({ITEM: i})
+      return (<FormsDinamicItem item={i} key={idx}/>)
+    })
+  }
+
+  function closeSnackbar() {
+    setIsSaving(false)
   }
 
   return (
@@ -92,17 +125,17 @@ const FormsEdit = () => {
         <Stack spacing={2} py={2}>
           <Paper elevation={3}>
             <Container>
-              <Stack py={2}>
-                <TextField 
-                  fullWidth
+              <Stack py={2} spacing={2}>
+                <OptimizedTextField
                   label="Titulo"
-                  variant="outlined" 
-                  margin="normal"
-                  
-                  onBlur={changeTitle}
                   required
+                  initialValue={form.title}
+                  onUpdate={changeTitle}
                 />
-                <Typography variant="h6">Items</Typography>
+                <Stack spacing={1}>
+                  <Typography variant="h6">Items</Typography>
+                  {items}
+                </Stack>
                 <Button 
                   variant="contained"
                   onClick={saveChanges}
@@ -116,6 +149,17 @@ const FormsEdit = () => {
           />
           
         </Stack>
+         <Snackbar
+          open={isSaving}
+          onClose={closeSnackbar}
+          autoHideDuration={6000}
+          message="Guardando cambios..."
+          action={
+            <Button size="small">
+              Undo
+            </Button>
+          }
+        />
       </Box>
     </>
     )

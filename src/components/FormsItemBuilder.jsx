@@ -19,11 +19,7 @@ import Switch from '@mui/material/Switch';
 
 import FormsItemBuilderOptions from './FormsItemBuilderOptions.jsx'
 
-const itemTypes = [
-    { type: "textField", label: "Texto Corto" },
-    { type: "select", label: "Selección" }
-  ]
-
+import { itemTypes } from '~/util.js'
 
 const FormsItemBuilder = (props) => {
   const {
@@ -46,6 +42,12 @@ const FormsItemBuilder = (props) => {
     console.log(evt.target.value)
     setItem({...item, type: evt.target.value})
   }
+
+  function updateRequired(evt){
+    console.log({REQUIRED: evt.target.checked, El: evt.target})
+    setItem({...item, required: evt.target.checked})
+  }
+
 
   function saveItem() {
     console.log({sended_item: item})
@@ -87,11 +89,18 @@ const FormsItemBuilder = (props) => {
               </Select>
             </FormControl>
             <FormControlLabel 
-              control={<Switch/>}
+              control={
+                <Switch 
+                  value={item.required}
+                  onChange={updateRequired}
+                />
+              }
               label="Requerido" 
-              labelPlacement="start"/>
+              labelPlacement="start"
 
-            {['select', 'Checkbox'].includes(item.type)?
+              />
+
+            {['select', 'checkbox'].includes(item.type)?
               <FormsItemBuilderOptions
                 onChange={updateOptions}
               />
