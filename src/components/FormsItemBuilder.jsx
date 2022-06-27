@@ -15,61 +15,98 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import Checkbox from '@mui/material/Checkbox';
+import Switch from '@mui/material/Switch';
 
-export default function FormsItemBuilder(props){
+import FormsItemBuilderOptions from './FormsItemBuilderOptions.jsx'
+
+const itemTypes = [
+    { type: "textField", label: "Texto Corto" },
+    { type: "select", label: "Selección" }
+  ]
+
+
+const FormsItemBuilder = (props) => {
   const {
-    itemTypes, 
-    itemTypeSelected, 
-    changeItemType,
     onAddItem
   } = props 
 
   const [item, setItem] = useState({
-    type: '',
+    type: itemTypes[0].type,
     label: '',
     required: false,
     defualt: '',
     options: []
   })
 
-  function addItem() {
+  function updateLabel(evt){
+    setItem({...item, label: evt.target.value})
+  }
+
+  function updateType(evt){
+    console.log(evt.target.value)
+    setItem({...item, type: evt.target.value})
+  }
+
+  function saveItem() {
+    console.log({sended_item: item})
     onAddItem(item)
   }
 
+  function updateOptions(options) {
+    console.log(options)
+    setItem({...item, options})
+  }
+
   return (
-    <Paper elevation={3}>
-      <Container>
-        <Stack py={2} spacing={2}>
-          <Typography variant="h6">Nuevo Item</Typography>
-          <TextField 
-            fullWidth
-            label="Pregunta"
-            variant="outlined" 
-            margin="normal"
-            required
-          />
-          <FormControl>
-            <InputLabel id="lbl">Tipo</InputLabel>
-            <Select
-              id="lbl"
-              label="Tipo"
-              value={itemTypeSelected}
-              onChange={changeItemType}
-            >
-              {itemTypes.map((i, idx) => (
-                <MenuItem 
-                  key={idx}   
-                  value={i.type}
-                >{i.label}</MenuItem>
-                ))}
-            </Select>
-          </FormControl>
-          <Button 
-            variant="contained"
-            onClick={addItem}>Agregar</Button>
-          <Button>Limpiar</Button>  
-        </Stack>
-      </Container>
-    </Paper>
-  )
+      <Paper elevation={3}>
+        <Container>
+          <Stack py={2} spacing={2}>
+            <Typography variant="h6">Nuevo Item</Typography>
+            <TextField 
+              fullWidth
+              label="Pregunta"
+              variant="outlined" 
+              margin="normal"
+              required
+              onBlur={updateLabel}
+            />
+            <FormControl>
+              <InputLabel id="lbl">Tipo</InputLabel>
+              <Select
+                id="lbl"
+                label="Tipo"
+                value={item.type}
+                onChange={updateType}
+              >
+                {itemTypes.map((i, idx) => (
+                  <MenuItem 
+                    key={idx}   
+                    value={i.type}
+                  >{i.label}</MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+            <FormControlLabel 
+              control={<Switch/>}
+              label="Requerido" 
+              labelPlacement="start"/>
+
+            {['select', 'Checkbox'].includes(item.type)?
+              <FormsItemBuilderOptions
+                onChange={updateOptions}
+              />
+              :
+              null
+            }
+
+            <Button 
+              variant="contained"
+              onClick={saveItem}>Agregar</Button>
+            <Button>Limpiar</Button>  
+          </Stack>
+        </Container>
+      </Paper>
+    )
 }
+
+export default FormsItemBuilder

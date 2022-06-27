@@ -1,4 +1,5 @@
-import { useState, createRef, useReducer } from 'react'
+import { useState, useReducer } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
@@ -20,12 +21,26 @@ import Checkbox from '@mui/material/Checkbox';
 import ActionBar from '../components/ActionBar.jsx'
 import FormsItemBuilder from '~/components/FormsItemBuilder.jsx'
 
+// Own logic...
+import { addForm } from '~/features/forms/formsSlice.js'
+
+
 import {
   useNavigate,
   useParams
 } from 'react-router-dom'
 
-export default function FormsCreate(){
+const itemTypes = [
+    { type: "textField", label: "Texto Corto" },
+    { type: "select", label: "Selección" }
+  ]
+
+const FormsCreate = () => {
+  const {id} = useParams()
+  const navigate = useNavigate()
+
+  const storeDispatch = useDispatch()
+
   const initialState = {
     title: '',
     items: []
@@ -49,19 +64,6 @@ export default function FormsCreate(){
 
   const [form, dispatch] = useReducer(reducer, initialState)
 
-  const {id} = useParams()
-  const navigate = useNavigate()
-  const titleInput = createRef(null)
-
-  const [newForm, setNewForm] = useState({
-    title: '',
-    items: []
-  })
-
-  const itemTypes = [
-    { type: "textField", label: "Texto Corto" },
-    { type: "select", label: "Selección" }
-  ]
   const [itemTypeSelected, setItemTypeSelected] = useState(itemTypes[0].type)
 
   function changeItemType(evt){
@@ -86,21 +88,24 @@ export default function FormsCreate(){
       type:'new:item', 
       payload: item
     })
+  }
 
-    console.log({form})
+  function saveForm(){
+    console.log('[!] saving forms...')
+    storeDispatch(addForm(form))
+    
   }
 
   const items = form.items.map((i, idx) => {
-    console.log({item: i})
     return (
-      <Typography key={idx}>{i.label}</Typography>
+      <Typography key={idx}>{JSON.stringify(i)}</Typography>
     )
   })
 
   return (
     <>
       <ActionBar 
-        title="Editar Formulario"
+        title="Creando Formulario"
         beforeExit={beforeExit}
       />
       <Box my={2} mx={2}>
@@ -118,14 +123,16 @@ export default function FormsCreate(){
                   required
                 />
                 <Typography variant="h6">Items</Typography>
+                <Stack>{items}</Stack>
+                <Button 
+                  variant="contained"
+                  onClick={saveForm}
+                >Guardar Formulario</Button>
               </Stack>
             </Container>
           </Paper>
 
-          <FormsItemBuilder 
-            itemTypes={itemTypes}
-            itemTypeSelected={itemTypeSelected}
-            changeItemType={changeItemType}
+          <FormsItemBuilder
             onAddItem={addItem}
           />
           
@@ -134,6 +141,8 @@ export default function FormsCreate(){
     </>
     )
 }
+
+export default FormsCreate
 
 /*
 <Container>

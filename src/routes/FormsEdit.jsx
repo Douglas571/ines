@@ -1,4 +1,5 @@
 import { useState, createRef, useReducer } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
@@ -20,59 +21,50 @@ import Checkbox from '@mui/material/Checkbox';
 import ActionBar from '../components/ActionBar.jsx'
 import FormsItemBuilder from '~/components/FormsItemBuilder.jsx'
 
+// Own logic...
+import { updateForm } from '~/features/forms/formsSlice.js'
+
 import {
   useNavigate,
   useParams
 } from 'react-router-dom'
 
+const itemTypes = [
+    { type: "textField", label: "Texto Corto" },
+    { type: "select", label: "Selección" }
+  ]
+
 const FormsEdit = () => {
-  const initialState = {
-    title: '',
-    items: []
-  }
+  const {id} = useParams()
+  const navigate = useNavigate()
+
+  const originalForm = useSelector(state => {
+    console.log({STATE_FORMS: state.forms})
+    return state.forms.find(f => f.id == id)
+  })
+  const storeDispatch = useDispatch()
+
+  const initialState = {...originalForm}
 
   function reducer(state, action) {
     console.log('[!] reducer:', JSON.stringify(action))
     switch(action.type){
-      case 'title':
+      case 'new:title':
+        console.log({THE_STATE_TITLE_IS: state})
         return {...state, title: action.payload}
 
       default:
+        return state
         break
     }
   }
 
   const [form, dispatch] = useReducer(reducer, initialState)
-
-
-
-  const {id} = useParams()
-  const navigate = useNavigate()
-  const titleInput = createRef(null)
-
-  const [newForm, setNewForm] = useState({
-    title: '',
-    items: []
-  })
-
-  const itemTypes = [
-    { type: "textField", label: "Texto Corto" },
-    { type: "select", label: "Selección" }
-  ]
-  const [itemTypeSelected, setItemTypeSelected] = useState(itemTypes[0].type)
-
-  function changeItemType(evt){
-    console.log(evt.target.value)
-    setItemTypeSelected(evt.target.value)
-  }
-
-  function actionCreate(type){
-    return payload => ({ type, payload }) 
-  }
+  console.log({THE_FORM_IS: form})
 
   function changeTitle(evt){
     console.log(form.title)
-    dispatch(actionCreate('title', evt.target.value))
+    dispatch({ type: 'new:title', payload: evt.target.value})
   }
 
   const beforeExit = () => {
@@ -83,6 +75,11 @@ const FormsEdit = () => {
   const addItem = (newItem) => {
 
 
+  }
+
+  function saveChanges(){
+    console.log('[!] saving changes')
+    storeDispatch(updateForm(form))
   }
 
   return (
@@ -106,14 +103,16 @@ const FormsEdit = () => {
                   required
                 />
                 <Typography variant="h6">Items</Typography>
+                <Button 
+                  variant="contained"
+                  onClick={saveChanges}
+                >Guardar Cambios</Button>
               </Stack>
             </Container>
           </Paper>
 
           <FormsItemBuilder 
-            itemTypes={itemTypes}
-            itemTypeSelected={itemTypeSelected}
-            changeItemType={changeItemType}
+            onAddItem={addItem}
           />
           
         </Stack>

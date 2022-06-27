@@ -59,7 +59,7 @@ const Formularies = () => {
 
   const openFormulary = (id) => {
     console.log(`opening formulary ${id}...`)
-    navigate(`/formularies/edit/${id}`)
+    navigate(`/formularies/${id}`)
   }
 
   const editFormulary = (id) => {

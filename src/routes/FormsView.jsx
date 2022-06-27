@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 // Own logic...
-import { change } from '~/features/forms/formsSlice.js'
+//import {  } from '~/features/forms/formsSlice.js'
 
 // third party components...
 import Box from '@mui/material/Box'
@@ -32,7 +32,8 @@ function FormsView() {
   const { id } = useParams()
 
   const form = useSelector(state => {
-    return state.forms.find(f => f.id === id)
+    console.log({STATE_FORMS: state.forms})
+    return state.forms.find(f => f.id == id)
   })
   const dispatch = useDispatch()
 
@@ -40,7 +41,8 @@ function FormsView() {
     console.log('going back...')
   }
 
-  console.log(form)
+  console.log({VIEW_FORM_ID: id})
+  console.log({VIEW_FORM: form})
 
   let items = (<Typography>Formulario vacio</Typography>)
   if (form.items) {

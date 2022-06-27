@@ -4,7 +4,7 @@ import {
 } from '@reduxjs/toolkit'
 
 const formsSlice = createSlice({
-  name: 'ines',
+  name: 'ines_forms',
   initialState: [
     {
       id: '12345',
@@ -43,17 +43,20 @@ const formsSlice = createSlice({
   ]
   ,
   reducers: {
-    addForm: (state, payload) => {
-      state.push(payload)
+    addForm: (state, action) => {
+      console.log({REDUX_NEW_FORM: action})
+      action.payload.id = Date.now()
+      state.push(action.payload)
     },
-
-    change: state => {
-      state.c += 1
-      state.msg = `Hello world! #${state.c}`
+    updateForm: (state, action) => {
+      console.log({REDUX_UPDATE_FORM: action})
+      const form = action.payload
+      const idx = state.findIndex(({id}) => id == form.id)
+      state[idx] = form
     }
   }
 })
 
-export const { change } = formsSlice.actions
+export const { addForm, updateForm } = formsSlice.actions
 
 export default formsSlice.reducer
