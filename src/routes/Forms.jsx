@@ -75,7 +75,8 @@ const Formularies = () => {
 
   return (
       <>
-        <AppBar title="Formularios"/>
+        <AppBar 
+          title="Formularios"/>
         <Container sx={{mt:2}}> 
           
           <List dense>
@@ -86,7 +87,7 @@ const Formularies = () => {
                 secondaryAction={
                   <IconButton 
                     edge="end"
-                     onClick={() => editFormulary(form.id)}
+                    onClick={() => editFormulary(form.id)}
                   >
                     <EditIcon/>
                   </IconButton>
@@ -96,7 +97,7 @@ const Formularies = () => {
                   onClick={ () => openFormulary(form.id) }>
                   <ListItemText 
                     primary={form.title} 
-                    secondary="Creador por: name"/>
+                    secondary={`Creador por: ${form.author.name}`}/>
                 </ListItemButton>
               </ListItem>
             )}

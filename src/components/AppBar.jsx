@@ -31,7 +31,12 @@ import {
 import Divider from '@mui/material/Divider';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 
-export default function MenuAppBar({title}) {
+export default function MenuAppBar(props) {
+  const {
+    title,
+    moreActions,
+  } = props
+
   const navigate = useNavigate()
   const location = useLocation()
   const [auth, setAuth] = React.useState(false);
@@ -48,14 +53,27 @@ export default function MenuAppBar({title}) {
     {
       name: 'Formularios',
       route: 'formularies'
-
+    },
+    {
+      name: 'Resultados',
+      route: 'results'
+    },
+    {
+      name: 'Profesores',
+      route: 'teachers'
     }
   ]
 
   function goTo(route) {
-    const url = window.location.pathname.split('/')[1]
+    console.log('navigating to route: ', route)
+    const mainSectionUrl = window.location.pathname.split('/')[1]
+    console.log({ACTUAL_URL: mainSectionUrl,
+                  NEXT_ROUTE: route})
 
-    if (!(url === route)) navigate(route)
+    if (route === '/') 
+      navigate('/') 
+    else
+      navigate(`/${route}`) 
   }
 
   function toggleMenu(evt) {

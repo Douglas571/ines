@@ -30,7 +30,7 @@ import OptimizedTextField from '~/components/OptimizedTextField.jsx'
 import FormsDinamicItem from '~/components/FormsDinamicItem.jsx'
 
 // Own logic...
-import { updateForm } from '~/features/forms/formsSlice.js'
+import { updateForm } from '~/features/formsSlice.js'
 import { itemTypes } from '~/util.js'
 
 import {

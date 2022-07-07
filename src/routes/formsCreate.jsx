@@ -21,13 +21,14 @@ import Checkbox from '@mui/material/Checkbox';
 import Snackbar from '@mui/material/Snackbar'
 
 // Own components...
+import BasicLayout from '~/layout/Basic'
 import ActionBar from '../components/ActionBar.jsx'
 import FormsItemBuilder from '~/components/FormsItemBuilder.jsx'
 
 import FormsDinamicItem from '~/components/FormsDinamicItem.jsx'
 
 // Own logic...
-import { addForm } from '~/features/forms/formsSlice.js'
+import { addForm } from '~/features/formsSlice.js'
 import { itemTypes } from '~/util.js'
 
 import {
@@ -103,47 +104,44 @@ const FormsCreate = () => {
   })
 
   return (
-    <>
-      <ActionBar 
-        title="Creando Formulario"
-        beforeExit={beforeExit}
-      />
-      <Box my={2} mx={2}>
-        <Stack spacing={2} py={2}>
-          <Paper elevation={3}>
-            <Container>
-              <Stack py={2}>
-                <TextField 
-                  fullWidth
-                  label="Titulo"
-                  variant="outlined" 
-                  margin="normal"
-                  
-                  onBlur={changeTitle}
-                  required
-                />
+    <BasicLayout
+      title="Creando Formulario"
+      beforeExit={beforeExit}
+    >
+      <Stack spacing={3}>
+        <Paper elevation={3}>
+          <Container>
+            <Stack py={2}>
+              <TextField 
+                fullWidth
+                label="Titulo"
+                variant="outlined" 
+                margin="normal"
                 
-                <Stack spacing={1}>
-                  <Typography variant="h6">Items</Typography>
-                  {items}
-                </Stack>
-
-                <Button 
-                  variant="contained"
-                  onClick={saveForm}
-                >Guardar Formulario</Button>
+                onBlur={changeTitle}
+                required
+              />
+              
+              <Stack spacing={1}>
+                <Typography variant="h6">Items</Typography>
+                {items}
               </Stack>
-            </Container>
-          </Paper>
 
-          <FormsItemBuilder
-            onAddItem={addItem}
-          />
-          
-        </Stack>
-      </Box>
-    </>
-    )
+              <Button 
+                variant="contained"
+                onClick={saveForm}
+              >Guardar Formulario</Button>
+            </Stack>
+          </Container>
+        </Paper>
+
+        <FormsItemBuilder
+          onAddItem={addItem}
+        />
+        
+      </Stack>
+    </BasicLayout>
+  )
 }
 
 export default FormsCreate

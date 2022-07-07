@@ -9,6 +9,7 @@ const formsSlice = createSlice({
     {
       id: '12345',
       title: 'Eval. de Acompañamiento',
+      author: {name: 'Douglas Socorro'},
       items: [
         { 
           label: '¿cómo te llamas?',
@@ -34,11 +35,14 @@ const formsSlice = createSlice({
     },
     {
       id: '79807',
-      title: 'Autoevaluación'
+      title: 'Autoevaluación',
+      author: {name: 'Yhoxin Rossell'},
     },
     {
       id: '34873',
-      title: 'Eval. por Alumnado'
+      title: 'Eval. por Alumnado',
+      author: {name: 'Hernan Guerrero'},
+
     }
   ]
   ,

@@ -16,7 +16,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
 const FormsDinamicItem = (props) => {
-  const {item} = props
+  const {
+    item,
+    onUpdate
+  } = props
+  
   let element
 
   switch(item.type){
@@ -28,6 +32,8 @@ const FormsDinamicItem = (props) => {
           variant="outlined" 
           margin="normal"
           required={item.required}
+
+          onBlur={(evt) => onUpdate(evt.target.value)}
         />
       )
       break
@@ -49,6 +55,7 @@ const FormsDinamicItem = (props) => {
           <Select
             id="lbl"
             label={item.label}
+            onChange={(evt) => onUpdate(evt.target.value)}
           >
             {options}
           </Select>
@@ -80,7 +87,8 @@ const FormsDinamicItem = (props) => {
             <FormControlLabel 
               control={<Checkbox/>} 
               label={item.label}
-              labelPlacement="end"/>
+              labelPlacement="end"
+              onChange={(evt) => onUpdate(evt.target.checked)}/>
           </FormGroup>
         )
       }
