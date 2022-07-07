@@ -13,6 +13,7 @@ import TeachersView from './routes/TeachersView.jsx'
 import Evaluate from './routes/Evaluate.jsx'
 
 import Results from './routes/Results.jsx'
+import ResultsView from './routes/ResultsView.jsx'
 
 import {
   BrowserRouter,
@@ -42,7 +43,10 @@ const App = () => {
 
             <Route path="evaluate" element={<Evaluate/>}/>
 
-            <Route path="results" element={<Results/>}/>
+            <Route path="results">
+              <Route path="" element={<Results/>}/>
+              <Route path=":id" element={<ResultsView/>}/>
+            </Route>
             
             <Route
               path="*"

@@ -17,15 +17,7 @@ import BasicLayout from '~/layout/Basic'
 
 // Own logic...
 import { addEvaluation } from '~/features/evaluationsSlice'
-
-function getAnswerObject(items) {
-  const obj = {}
-  items.forEach(i => {
-    obj[i.label] = null
-  })
-
-  return obj
-}
+import { getAnswerObject } from '~/util'
 
 function Evaluating() {
   const [search] = useSearchParams()
@@ -78,7 +70,7 @@ function Evaluating() {
             {teacher ? <Typography>the teacher is: {teacher.name}</Typography> : null}
             {form ? <Typography>the form is: {form.title}</Typography> : null}
 
-            {form.items.map( (item, idx) => (
+            {form.items?.map( (item, idx) => (
                 <FormsDinamicItem 
                   key={idx} 
                   item={item}

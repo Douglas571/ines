@@ -7,7 +7,33 @@ import {
 const evaluationsSlice = createSlice({
   name: 'evaluations',
   initialState: {
-    online: [],
+    online: [
+      {
+        "teacher": 0,
+        "form": "12345",
+        "answers": {
+          "¿cómo te llamas?": "raul",
+          "¿qué carrera cursas?": "ingeniería petroquímica",
+          "¿ha faltado a clase sin justificar?": true
+        }
+      },
+      {
+        "teacher": 1,
+        "form": "12345",
+        "answers": {
+          "¿cómo te llamas?": "yhox",
+          "¿qué carrera cursas?": "ingeniería de sistemas"
+        }
+      },
+      {
+        "teacher": 2,
+        "form": "12345",
+        "answers": {
+          "¿cómo te llamas?": "herna",
+          "¿qué carrera cursas?": "ingeniería de sistemas"
+        }
+      }
+    ],
     local: []
   },
   reducers: {

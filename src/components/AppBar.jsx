@@ -55,13 +55,14 @@ export default function MenuAppBar(props) {
       route: 'formularies'
     },
     {
+      name: 'Profesores',
+      route: 'teachers'
+    },
+    {
       name: 'Resultados',
       route: 'results'
     },
-    {
-      name: 'Profesores',
-      route: 'teachers'
-    }
+    
   ]
 
   function goTo(route) {
