@@ -1,11 +1,13 @@
 import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 // Third party components...
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
+
+import Snackbar from '@mui/material/Snackbar'
 
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -22,6 +24,7 @@ import { getAnswerObject } from '~/util'
 function Evaluating() {
   const [search] = useSearchParams()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const teacher = useSelector( state => {
     const id = search.get('teacher')
@@ -36,6 +39,7 @@ function Evaluating() {
   const evaluations = useSelector( st => st.evaluations.local )
 
   const [answers, setAnswers] = useState(getAnswerObject(form.items))
+  const [showMsg, setShowMsg] = useState(false)
 
   function handleSave() {
     console.log('[!] Guardando formulario...')
@@ -48,6 +52,7 @@ function Evaluating() {
     }
     
     dispatch(addEvaluation(evaluation))
+    setShowMsg(true)
   }
 
   function update(label, value){
@@ -57,6 +62,11 @@ function Evaluating() {
     newState[label] = value
     
     setAnswers(newState)
+  }
+
+  function handleClose(){
+    setShowMsg(false)
+    navigate('/teachers')
   }
 
   return (
@@ -84,6 +94,12 @@ function Evaluating() {
           </Stack>
         </Paper>
       </Stack>
+      <Snackbar
+        open={showMsg}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        message="Evaluation saved"
+      />
     </BasicLayout>
   )
 }

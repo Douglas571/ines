@@ -111,7 +111,6 @@ const FormsItemBuilder = (props) => {
             <Button 
               variant="contained"
               onClick={saveItem}>Agregar</Button>
-            <Button>Limpiar</Button>  
           </Stack>
         </Container>
       </Paper>

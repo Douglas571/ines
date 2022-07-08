@@ -39,7 +39,7 @@ const evaluationsSlice = createSlice({
   reducers: {
     addEvaluation: (state, action) => {
       console.log({ACTION: action})
-      state.local.push(action.payload)
+      state.online.push(action.payload)
     }
   }
 })

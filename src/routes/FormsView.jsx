@@ -62,7 +62,6 @@ function FormsView() {
                 <Typography variant="h5">{form.title}</Typography>
                 <Divider/>
                 {items}
-                <Button variant="contained">Evaluar</Button>
               </Stack>
             </Container>
           </Paper>
