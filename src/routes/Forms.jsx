@@ -97,7 +97,7 @@ const Formularies = () => {
                   onClick={ () => openFormulary(form.id) }>
                   <ListItemText 
                     primary={form.title} 
-                    secondary={`Creador por: ${form.author.name}`}/>
+                    secondary={form.author ? `Creador por: ${form.author?.name}`: null}/>
                 </ListItemButton>
               </ListItem>
             )}

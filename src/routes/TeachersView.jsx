@@ -29,7 +29,7 @@ function TeachersView(props) {
   const navigate = useNavigate()
   const {id} = useParams()
 
-  const [pickForm, setPickForm] = useState(true)
+  const [pickForm, setPickForm] = useState(false)
 
   const teacher = useSelector(state => {
     console.log({STATE_FORMS: state.teachers.local})

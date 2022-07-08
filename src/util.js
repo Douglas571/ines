@@ -22,14 +22,15 @@ export function joinResults(args) {
   } = args
 
   const results = []
+  const TOTAL = evaluations
+      .filter(evl=> evl.form == form.id)
+      .length
+
+  console.log({TOTAL});
 
   form?.items.forEach( (item, idx) => {
     const res = {}
     res.item = {...item}
-    const TOTAL = evaluations
-      .filter(evl=> evl.form == form.id)
-      .length
-
 
     switch(item.type) {
       case 'text': {
@@ -44,12 +45,12 @@ export function joinResults(args) {
       }
 
       case 'select': {
-        const choices = {}
+        const choices = []
     
         console.log({SELECT_TOTAL: TOTAL})
 
         item.options.forEach( op => {
-          choices[op] = {}
+          const chs = { option: op }
 
           // find teacher tha choice this option
           const IdsOfteachersForThisOp = evaluations
@@ -59,12 +60,14 @@ export function joinResults(args) {
           const teachersForThisOp = IdsOfteachersForThisOp
             .map( id => teachers.find( t => t.id == id))
 
-          choices[op].teacher = teachersForThisOp
+          chs.teacher = teachersForThisOp
 
-          const percent = (teachersForThisOp.length / TOTAL) * 100
-          choices[op].percent = percent
+          const percent = 
+            Math.round((teachersForThisOp.length / TOTAL) * 100)
+          chs.percent = percent
 
           // calculate percentage of this options
+          choices.push(chs)
         })
 
         res.choices = choices
@@ -86,7 +89,8 @@ export function joinResults(args) {
             .filter(t => t.id == evl.teacher)
         })
 
-        choices.yes.percent = (yesEvals.length / TOTAL) * 100
+        choices.yes.percent = 
+          Math.round((yesEvals.length / TOTAL) * 100)
 
 
         // NO
@@ -98,7 +102,8 @@ export function joinResults(args) {
             .filter(t => t.id == evl.teacher)
         })
 
-        choices.no.percent = (noEvals.length / TOTAL) * 100
+        choices.no.percent = 
+          Math.round((noEvals.length / TOTAL) * 100)
 
         /*
         {
@@ -120,6 +125,12 @@ export function joinResults(args) {
 
     results.push(res)
   })
+
+
+  const TOTAL_OF_TEACHER = teachers.length
+
+  results.teachersEvaluatedPercent = 
+    Math.round((TOTAL / TOTAL_OF_TEACHER) * 100)
 
   return results
 }

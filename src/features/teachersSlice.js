@@ -21,6 +21,21 @@ const teachersSlice = createSlice({
         id: 2,
         name: 'hernán',
         lastname: 'guerrero'
+      },
+      {
+        id: 3,
+        name: 'Jimmmy',
+        lastname: 'Leal'
+      },
+      {
+        id: 4,
+        name: 'Jepsenia',
+        lastname: 'Avila'
+      },
+      {
+        id: 5,
+        name: 'Argenis',
+        lastname: 'Chirinos'
       }
     ]
   },

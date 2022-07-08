@@ -1,0 +1,35 @@
+form
+result
+teachers
+
+resultados {
+  item {
+    label
+    type
+  }
+
+  #if item == text
+    answers: [
+      {
+        teacher: {
+          name
+          id
+        },
+        answere
+      }
+    ]
+
+  #if item == select
+    choices: {
+      {
+        options
+        teachers
+        percent
+        
+      }
+    }
+
+  # if item == checkbox {
+    
+  }
+}

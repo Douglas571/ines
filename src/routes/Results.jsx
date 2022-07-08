@@ -2,8 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
 
 // mui components...
 import Container from '@mui/material/Container'
@@ -16,11 +14,6 @@ import ListItemText from '@mui/material/ListItemText'
 // own components...
 import BasicLayout from '~/layout/Basic'
 
-ChartJS.register(ArcElement, Tooltip, Legend);
-export const data = {
-  labels: ['Red', 'Blue'],
-  datasets: []
-}
 
 function Results(){
   const navigate = useNavigate()
